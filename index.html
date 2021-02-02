@@ -15,9 +15,36 @@
 </head>
 <body>
   <header>
+      Code Journal
   </header>
-  <main>
-    <div data-view="edit-profile"></div>
+  <main class= "container">
+    <h1>Edit Profile</h1>
+    <div data-view="edit-profile">
+    <form>
+      <div class="row">
+        <div class="column-half">
+            <input class="image" type="image" src="images/placeholder-image-square.jpg" height="360">
+        </div>
+        <div class="column-half">
+            <label for="url">Avatar URL</label><br/><br/>
+            <input class="input" type="url" name="avatarUrl" id="avatar" required><br/><br/>
+            <label for="username">Username</label><br/><br/>
+            <input class="input" type="text" name="username" id="username" required><br/><br/>
+            <label for="fullName">Full Name</label><br/><br/>
+            <input class="input" type="text" name="name" id="fullName" required><br/><br/>
+            <label for="location">Location</label><br/><br/>
+            <input class="input location" type="text" name="location" id="location" required>
+        </div>
+        <div class="column-full">
+          <label for="bio">Bio</label><br/>
+          <textarea id="bio" rows="7" name="bio"></textarea>
+        </div>
+        <div class="column-button">
+          <button type="submit">SAVE</button>
+        </div>
+      </div>
+    </form>
+    </div>
   </main>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
