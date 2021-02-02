@@ -1,0 +1,38 @@
+header {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  font-family: 'Lobster', cursive;
+  font-size: 20px;
+  color: white;
+  background-color: rgb(59, 59, 59);
+}
+
+input,
+textarea,
+button {
+  border: 3px solid black;
+}
+
+button {
+  padding: 5px 10px;
+  box-shadow: 4px 3px black;
+}
+
+textarea,
+button {
+  margin-top: 15px;
+}
+
+.input {
+  line-height: 30px;
+}
+
+.column-half {
+  margin-bottom: 20px;
+}
+
+.container {
+  font-family: 'Rubik', sans-serif;
+  margin-bottom: 30px;
+}

@@ -14,8 +14,21 @@
 }
 
 .column-full,
-.column-half {
+.column-full > textarea,
+.column-half,
+.column-half > input,
+.column-button {
   width: 100%;
+}
+
+.column-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+header {
+  padding: 0 1.5rem;
 }
 
 @media screen and (min-width: 768px) {
@@ -24,11 +37,17 @@
   }
 
   .column-full,
-  .column-half {
+  .column-half,
+  .column-button,
+  h1 {
     padding: 0 0.75rem;
   }
 
   .column-half {
     width: 50%;
+  }
+
+  header {
+    padding: 0 13.5rem;
   }
 }
