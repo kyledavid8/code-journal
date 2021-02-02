@@ -17,7 +17,8 @@
 .column-full > textarea,
 .column-half,
 .column-half > input,
-.column-button {
+.column-button,
+#profile-picture {
   width: 100%;
 }
 
@@ -29,6 +30,11 @@
 
 header {
   padding: 0 1.5rem;
+}
+
+.row-two-one {
+  display: flex;
+  flex-direction: row;
 }
 
 @media screen and (min-width: 768px) {
@@ -45,6 +51,10 @@ header {
 
   .column-half {
     width: 50%;
+  }
+
+  #profile-picture {
+    width: 100%;
   }
 
   header {

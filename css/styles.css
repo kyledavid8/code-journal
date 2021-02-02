@@ -36,3 +36,16 @@ button {
   font-family: 'Rubik', sans-serif;
   margin-bottom: 30px;
 }
+
+.row-two-one {
+  margin-bottom: inherit;
+}
+
+.row-two-one,
+.biography {
+  margin-left: 15px;
+}
+
+.row-two-one > p {
+  margin-left: inherit;
+}
