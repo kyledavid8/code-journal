@@ -13,7 +13,23 @@ avatar.addEventListener('input', function () {
 
 form.addEventListener('submit', function (event) {
   event.preventDefault();
-  var data = localStorage.getItem('data-object');
+  if (localStorage.getItem('data-object') === null) {
+    var data = {
+      view: 'edit-profile',
+      profile: {
+        username: '',
+        fullName: '',
+        location: '',
+        avatarUrl: '',
+        bio: ''
+      },
+      entries: []
+    };
+    data = JSON.stringify(data);
+    localStorage.setItem('data-object', data);
+  }
+
+  data = localStorage.getItem('data-object');
   data = JSON.parse(data);
 
   data.profile.avatarUrl = avatar.value;
@@ -24,6 +40,7 @@ form.addEventListener('submit', function (event) {
   var dataVar = JSON.stringify(data);
   localStorage.setItem('data-object', dataVar);
   viewSwapping('profile');
+  form.reset();
 });
 
 document.addEventListener('DOMContentLoaded', function () {
