@@ -10,8 +10,10 @@ header {
 
 input,
 textarea,
-button {
+button,
+#profile-picture {
   border: 3px solid black;
+  border-radius: 3px;
 }
 
 button {
@@ -35,4 +37,17 @@ button {
 .container {
   font-family: 'Rubik', sans-serif;
   margin-bottom: 30px;
+}
+
+.row-two-one {
+  margin-bottom: inherit;
+}
+
+.row-two-one > p {
+  margin-left: inherit;
+}
+
+.row-two-one,
+.biography {
+  margin-left: 15px;
 }
