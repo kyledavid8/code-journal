@@ -4,8 +4,16 @@ var fullName = document.querySelector('#fullName');
 var $location = document.querySelector('#location');
 var bio = document.querySelector('#bio');
 var image = document.querySelector('.image');
-var container = document.querySelector('.container');
 var form = document.querySelector('form');
+var $views = {
+  editProfile: document.querySelector('[data-view="edit-profile"]'),
+  viewProfile: document.querySelector('[data-view="view-profile"')
+};
+
+var $viewsClass = {
+  editProfile: document.querySelector('.edit-profile'),
+  viewProfile: document.querySelector('.view-profile.hidden')
+};
 
 avatar.addEventListener('input', function () {
   image.setAttribute('src', avatar.value);
@@ -13,43 +21,33 @@ avatar.addEventListener('input', function () {
 
 form.addEventListener('submit', function (event) {
   event.preventDefault();
-
   data.profile.avatarUrl = avatar.value;
   data.profile.username = username.value;
   data.profile.fullName = fullName.value;
   data.profile.location = $location.value;
   data.profile.bio = bio.value;
-  var dataVar = JSON.stringify(data);
-  localStorage.setItem('data-object', dataVar);
-  viewSwapping('profile');
+  data.view = 'view-profile';
+  localStorage.setItem('data-object', JSON.stringify(data));
+  viewSwapping();
   form.reset();
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-  var data = localStorage.getItem('data-object');
-  data = JSON.parse(data);
-  if (data.profile.username !== '') {
-    viewSwapping('profile');
-  } else {
-    viewSwapping('edit-profile');
+  var dataStore = localStorage.getItem('data-object');
+  if (dataStore !== null) {
+    data = JSON.parse(dataStore);
+    viewSwapping();
   }
 });
 
-function render() {
-  var data = localStorage.getItem('data-object');
-  data = JSON.parse(data);
-
-  var dataView = document.createElement('div');
-  dataView.setAttribute('data-view', 'profile');
-  dataView.setAttribute('class', 'viewProfile hidden');
-
+function renderProfile() {
   var h1 = document.createElement('h1');
   h1.textContent = data.profile.fullName;
-  dataView.appendChild(h1);
+  $views.viewProfile.appendChild(h1);
 
   var row = document.createElement('div');
   row.setAttribute('class', 'row');
-  dataView.appendChild(row);
+  $views.viewProfile.appendChild(row);
 
   var divCol = document.createElement('div');
   divCol.setAttribute('class', 'column-half');
@@ -95,30 +93,14 @@ function render() {
   var pBio = document.createElement('p');
   pBio.textContent = data.profile.bio;
   divBio.appendChild(pBio);
-
-  return dataView;
 }
 
-function viewSwapping(target) {
-  var array = ['edit-profile', 'profile'];
-  container.appendChild(render());
-  var viewProfile = document.querySelector('.viewProfile');
-  var editProfile = document.querySelector('.editProfile');
-  editProfile.className = 'editProfile hidden';
-  if (target === array[0]) {
-    editProfile.className = 'editProfile';
-    viewProfile.className = 'viewProfile hidden';
-    var get = localStorage.getItem('data-object');
-    get = JSON.parse(get);
-    get.view = array[0];
-    var set = JSON.stringify(get);
-    localStorage.setItem('data-object', set);
-  } else if (target === array[1]) {
-    viewProfile.className = 'viewProfile';
-    get = localStorage.getItem('data-object');
-    get = JSON.parse(get);
-    get.view = array[1];
-    set = JSON.stringify(get);
-    localStorage.setItem('data-object', set);
+function viewSwapping() {
+  if (data.view === 'edit-profile') {
+    $viewsClass.viewProfile.className = 'view-profile hidden';
+  } else if (data.view === 'view-profile') {
+    renderProfile();
+    $viewsClass.editProfile.className = 'edit-profile hidden';
+    $viewsClass.viewProfile.className = 'view-profile';
   }
 }
