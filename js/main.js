@@ -10,11 +10,6 @@ var $views = {
   viewProfile: document.querySelector('[data-view="view-profile"')
 };
 
-var $viewsClass = {
-  editProfile: document.querySelector('.edit-profile'),
-  viewProfile: document.querySelector('.view-profile.hidden')
-};
-
 avatar.addEventListener('input', function () {
   image.setAttribute('src', avatar.value);
 });
@@ -97,10 +92,10 @@ function renderProfile() {
 
 function viewSwapping() {
   if (data.view === 'edit-profile') {
-    $viewsClass.viewProfile.className = 'view-profile hidden';
+    $views.viewProfile.className = 'view-profile hidden';
   } else if (data.view === 'view-profile') {
     renderProfile();
-    $viewsClass.editProfile.className = 'edit-profile hidden';
-    $viewsClass.viewProfile.className = 'view-profile';
+    $views.editProfile.className = 'edit-profile hidden';
+    $views.viewProfile.className = 'view-profile';
   }
 }
