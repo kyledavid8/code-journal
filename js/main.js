@@ -7,8 +7,11 @@ var image = document.querySelector('.image');
 var form = document.querySelector('form');
 var $views = {
   editProfile: document.querySelector('[data-view="edit-profile"]'),
-  viewProfile: document.querySelector('[data-view="view-profile"')
+  viewProfile: document.querySelector('[data-view="view-profile"]'),
+  profileButton: document.querySelector('[data-view="profile"]')
 };
+
+var renderCounter = 0;
 
 avatar.addEventListener('input', function () {
   image.setAttribute('src', avatar.value);
@@ -24,6 +27,10 @@ form.addEventListener('submit', function (event) {
   data.view = 'view-profile';
   localStorage.setItem('data-object', JSON.stringify(data));
   viewSwapping();
+  if (renderCounter > 1) {
+    $views.viewProfile.removeChild(h1);
+    $views.viewProfile.removeChild(row);
+  }
   form.reset();
 });
 
@@ -35,13 +42,16 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
+var h1;
+var row;
+
 function renderProfile() {
-  var h1 = document.createElement('h1');
+  h1 = document.createElement('h1');
   h1.textContent = data.profile.fullName;
   $views.viewProfile.appendChild(h1);
 
-  var row = document.createElement('div');
-  row.setAttribute('class', 'row');
+  row = document.createElement('div');
+  row.setAttribute('class', 'rowTwo');
   $views.viewProfile.appendChild(row);
 
   var divCol = document.createElement('div');
@@ -88,14 +98,44 @@ function renderProfile() {
   var pBio = document.createElement('p');
   pBio.textContent = data.profile.bio;
   divBio.appendChild(pBio);
+
+  var editButtonContainer = document.createElement('div');
+  editButtonContainer.setAttribute('class', 'edit-button-container');
+  divColTwo.appendChild(editButtonContainer);
+
+  var editButton = document.createElement('button');
+  editButton.textContent = 'EDIT';
+  editButton.setAttribute('href', '#');
+  editButton.setAttribute('data-view', 'edit-profile');
+  editButtonContainer.appendChild(editButton);
 }
 
-function viewSwapping() {
+function viewSwapping(target) {
   if (data.view === 'edit-profile') {
     $views.viewProfile.className = 'view-profile hidden';
+    $views.editProfile.className = 'edit-profile';
+    image.setAttribute('src', data.profile.avatarUrl);
   } else if (data.view === 'view-profile') {
     renderProfile();
     $views.editProfile.className = 'edit-profile hidden';
     $views.viewProfile.className = 'view-profile';
+    renderCounter++;
   }
 }
+
+document.addEventListener('click', function (event) {
+  if (event.target.getAttribute('href') === null || data.profile.username === '') {
+    return;
+  }
+
+  if (event.target === $views.profileButton) {
+    data.view = 'view-profile';
+  } else {
+    data.view = 'edit-profile';
+  }
+  viewSwapping();
+  if (renderCounter > 1 && event.target === $views.profileButton) {
+    $views.viewProfile.removeChild(h1);
+    $views.viewProfile.removeChild(row);
+  }
+});
