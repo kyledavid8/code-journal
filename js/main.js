@@ -5,13 +5,15 @@ var $location = document.querySelector('#location');
 var bio = document.querySelector('#bio');
 var image = document.querySelector('.image');
 var form = document.querySelector('form');
+
 var $views = {
   editProfile: document.querySelector('[data-view="edit-profile"]'),
   viewProfile: document.querySelector('[data-view="view-profile"]'),
   profileButton: document.querySelector('[data-view="profile"]')
 };
 
-var renderCounter = 0;
+var h1;
+var row;
 
 avatar.addEventListener('input', function () {
   image.setAttribute('src', avatar.value);
@@ -19,6 +21,10 @@ avatar.addEventListener('input', function () {
 
 form.addEventListener('submit', function (event) {
   event.preventDefault();
+  if (data.profile.username !== '') {
+    $views.viewProfile.removeChild(h1);
+    $views.viewProfile.removeChild(row);
+  }
   data.profile.avatarUrl = avatar.value;
   data.profile.username = username.value;
   data.profile.fullName = fullName.value;
@@ -27,10 +33,6 @@ form.addEventListener('submit', function (event) {
   data.view = 'view-profile';
   localStorage.setItem('data-object', JSON.stringify(data));
   viewSwapping();
-  if (renderCounter > 1) {
-    $views.viewProfile.removeChild(h1);
-    $views.viewProfile.removeChild(row);
-  }
   form.reset();
 });
 
@@ -41,9 +43,6 @@ document.addEventListener('DOMContentLoaded', function () {
     viewSwapping();
   }
 });
-
-var h1;
-var row;
 
 function renderProfile() {
   h1 = document.createElement('h1');
@@ -107,6 +106,7 @@ function renderProfile() {
   editButton.textContent = 'EDIT';
   editButton.setAttribute('href', '#');
   editButton.setAttribute('data-view', 'edit-profile');
+  editButton.setAttribute('class', 'edit-button');
   editButtonContainer.appendChild(editButton);
 }
 
@@ -119,7 +119,6 @@ function viewSwapping(target) {
     renderProfile();
     $views.editProfile.className = 'edit-profile hidden';
     $views.viewProfile.className = 'view-profile';
-    renderCounter++;
   }
 }
 
@@ -128,14 +127,13 @@ document.addEventListener('click', function (event) {
     return;
   }
 
-  if (event.target === $views.profileButton) {
+  if (event.target === $views.profileButton && data.view === 'edit-profile') {
     data.view = 'view-profile';
-  } else {
-    data.view = 'edit-profile';
-  }
-  viewSwapping();
-  if (renderCounter > 1 && event.target === $views.profileButton) {
     $views.viewProfile.removeChild(h1);
     $views.viewProfile.removeChild(row);
+    viewSwapping();
+  } else if (event.target !== $views.profileButton) {
+    data.view = 'edit-profile';
+    viewSwapping();
   }
 });
