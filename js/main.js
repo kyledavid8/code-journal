@@ -12,19 +12,13 @@ var $views = {
   profileButton: document.querySelector('[data-view="profile"]')
 };
 
-var h1;
-var row;
-
 avatar.addEventListener('input', function () {
   image.setAttribute('src', avatar.value);
 });
 
 form.addEventListener('submit', function (event) {
   event.preventDefault();
-  if (data.profile.username !== '') {
-    $views.viewProfile.removeChild(h1);
-    $views.viewProfile.removeChild(row);
-  }
+  $views.viewProfile.innerHTML = '';
   data.profile.avatarUrl = avatar.value;
   data.profile.username = username.value;
   data.profile.fullName = fullName.value;
@@ -45,12 +39,12 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function renderProfile() {
-  h1 = document.createElement('h1');
+  var h1 = document.createElement('h1');
   h1.textContent = data.profile.fullName;
   $views.viewProfile.appendChild(h1);
 
-  row = document.createElement('div');
-  row.setAttribute('class', 'rowTwo');
+  var row = document.createElement('div');
+  row.setAttribute('class', 'row');
   $views.viewProfile.appendChild(row);
 
   var divCol = document.createElement('div');
@@ -128,9 +122,8 @@ document.addEventListener('click', function (event) {
   }
 
   if (event.target === $views.profileButton && data.view === 'edit-profile') {
+    $views.viewProfile.innerHTML = '';
     data.view = 'view-profile';
-    $views.viewProfile.removeChild(h1);
-    $views.viewProfile.removeChild(row);
     viewSwapping();
   } else if (event.target !== $views.profileButton) {
     data.view = 'edit-profile';
