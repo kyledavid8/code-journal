@@ -5,9 +5,11 @@ var $location = document.querySelector('#location');
 var bio = document.querySelector('#bio');
 var image = document.querySelector('.image');
 var form = document.querySelector('form');
+
 var $views = {
   editProfile: document.querySelector('[data-view="edit-profile"]'),
-  viewProfile: document.querySelector('[data-view="view-profile"')
+  viewProfile: document.querySelector('[data-view="view-profile"]'),
+  profileButton: document.querySelector('[data-view="profile"]')
 };
 
 avatar.addEventListener('input', function () {
@@ -16,6 +18,7 @@ avatar.addEventListener('input', function () {
 
 form.addEventListener('submit', function (event) {
   event.preventDefault();
+  $views.viewProfile.innerHTML = '';
   data.profile.avatarUrl = avatar.value;
   data.profile.username = username.value;
   data.profile.fullName = fullName.value;
@@ -88,14 +91,42 @@ function renderProfile() {
   var pBio = document.createElement('p');
   pBio.textContent = data.profile.bio;
   divBio.appendChild(pBio);
+
+  var editButtonContainer = document.createElement('div');
+  editButtonContainer.setAttribute('class', 'edit-button-container');
+  divColTwo.appendChild(editButtonContainer);
+
+  var editButton = document.createElement('button');
+  editButton.textContent = 'EDIT';
+  editButton.setAttribute('href', '#');
+  editButton.setAttribute('data-view', 'edit-profile');
+  editButton.setAttribute('class', 'edit-button');
+  editButtonContainer.appendChild(editButton);
 }
 
-function viewSwapping() {
+function viewSwapping(target) {
   if (data.view === 'edit-profile') {
     $views.viewProfile.className = 'view-profile hidden';
+    $views.editProfile.className = 'edit-profile';
+    image.setAttribute('src', data.profile.avatarUrl);
   } else if (data.view === 'view-profile') {
     renderProfile();
     $views.editProfile.className = 'edit-profile hidden';
     $views.viewProfile.className = 'view-profile';
   }
 }
+
+document.addEventListener('click', function (event) {
+  if (event.target.getAttribute('href') === null || data.profile.username === '') {
+    return;
+  }
+
+  if (event.target === $views.profileButton && data.view === 'edit-profile') {
+    $views.viewProfile.innerHTML = '';
+    data.view = 'view-profile';
+    viewSwapping();
+  } else if (event.target !== $views.profileButton) {
+    data.view = 'edit-profile';
+    viewSwapping();
+  }
+});

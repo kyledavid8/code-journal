@@ -37,6 +37,12 @@ header {
   flex-direction: row;
 }
 
+.edit-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
 @media screen and (min-width: 768px) {
   .container {
     max-width: 900px;
@@ -59,5 +65,9 @@ header {
 
   header {
     padding: 0 13.5rem;
+  }
+
+  .edit-button-container {
+    justify-content: flex-start;
   }
 }
