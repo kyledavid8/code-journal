@@ -120,26 +120,22 @@ function renderProfile() {
 }
 
 function viewSwapping(target) {
-  if (data.view === 'edit-profile') {
-    $views.viewProfile.className = 'view-profile hidden';
-    $views.editProfile.className = 'edit-profile';
-    image.setAttribute('src', data.profile.avatarUrl);
-  } else if (data.view === 'view-profile') {
-    renderProfile();
-    $views.editProfile.className = 'edit-profile hidden';
-    $views.entryCreate.className = 'entry-create hidden';
-    $views.entryNew.className = 'entries hidden';
-    $views.viewProfile.className = 'view-profile';
-  } else if (data.view === 'entries') {
-    $views.editProfile.className = 'edit-profile hidden';
-    $views.viewProfile.className = 'view-profile hidden';
-    $views.entryCreate.className = 'entry-create hidden';
-    $views.entryNew.className = 'entries';
-  } else if (data.view === 'create-entry') {
-    $views.editProfile.className = 'edit-profile hidden';
-    $views.viewProfile.className = 'view-profile hidden';
-    $views.entryNew.className = 'entries hidden';
-    $views.entryCreate.className = 'entry-create';
+  var dataViewArray = ['edit-profile', 'view-profile', 'entries', 'create-entry'];
+  var $viewsArray = [$views.editProfile, $views.viewProfile, $views.entryNew, $views.entryCreate];
+  $views.editProfile.className = 'edit-profile hidden';
+  $views.viewProfile.className = 'view-profile hidden';
+  $views.entryNew.className = 'entries hidden';
+  $views.entryCreate.className = 'create-entry hidden';
+  for (var counter = 0; counter <= dataViewArray.length - 1; counter++) {
+    if (data.view === dataViewArray[counter]) {
+      if (data.view === 'edit-profile') {
+        image.setAttribute('src', data.profile.avatarUrl);
+      } else if (data.view === 'view-profile') {
+        renderProfile();
+      }
+      $viewsArray[counter].className = dataViewArray[counter];
+      break;
+    }
   }
 }
 
@@ -164,14 +160,13 @@ document.addEventListener('click', function (event) {
   }
 });
 
-var entryData = {
-  imageUrl: '',
-  title: '',
-  notes: ''
-};
-
 entryForm.addEventListener('submit', function (event) {
   event.preventDefault();
+  var entryData = {
+    imageUrl: '',
+    title: '',
+    notes: ''
+  };
   entryData.imageUrl = entryUrl.value;
   entryData.title = entryTitle.value;
   entryData.notes = entryNotes.value;
