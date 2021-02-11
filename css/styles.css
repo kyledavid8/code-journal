@@ -25,6 +25,10 @@ button {
   box-shadow: 4px 3px black;
 }
 
+.button-new {
+  padding-top: -20px;
+}
+
 textarea,
 button {
   margin-top: 15px;
@@ -63,4 +67,12 @@ button {
 
 .edit-button-container > button {
   font-family: 'Lobster', cursive;
+}
+
+.entry-url {
+  margin-bottom: 15px;
+}
+
+.entries-two {
+  margin-top: 10px;
 }

@@ -9,11 +9,26 @@ var form = document.querySelector('form');
 var $views = {
   editProfile: document.querySelector('[data-view="edit-profile"]'),
   viewProfile: document.querySelector('[data-view="view-profile"]'),
-  profileButton: document.querySelector('[data-view="profile"]')
+  profileButton: document.querySelector('[data-view="profile"]'),
+  entryNew: document.querySelector('[data-view="entries"]'),
+  entryCreate: document.querySelector('[data-view="create-entry"]'),
+  entryButton: document.querySelector('[data-view="entries-button"')
 };
+
+var entryForm = document.querySelector('#entry-form');
+var entryUrl = document.querySelector('#url');
+var entryTitle = document.querySelector('#title');
+var entryNotes = document.querySelector('#notes');
+
+var entryImage = document.querySelector('.image-entry');
+var buttonNew = document.querySelector('.button-new');
 
 avatar.addEventListener('input', function () {
   image.setAttribute('src', avatar.value);
+});
+
+entryUrl.addEventListener('input', function () {
+  entryImage.setAttribute('src', entryUrl.value);
 });
 
 form.addEventListener('submit', function (event) {
@@ -112,7 +127,19 @@ function viewSwapping(target) {
   } else if (data.view === 'view-profile') {
     renderProfile();
     $views.editProfile.className = 'edit-profile hidden';
+    $views.entryCreate.className = 'entry-create hidden';
+    $views.entryNew.className = 'entries hidden';
     $views.viewProfile.className = 'view-profile';
+  } else if (data.view === 'entries') {
+    $views.editProfile.className = 'edit-profile hidden';
+    $views.viewProfile.className = 'view-profile hidden';
+    $views.entryCreate.className = 'entry-create hidden';
+    $views.entryNew.className = 'entries';
+  } else if (data.view === 'create-entry') {
+    $views.editProfile.className = 'edit-profile hidden';
+    $views.viewProfile.className = 'view-profile hidden';
+    $views.entryNew.className = 'entries hidden';
+    $views.entryCreate.className = 'entry-create';
   }
 }
 
@@ -121,12 +148,38 @@ document.addEventListener('click', function (event) {
     return;
   }
 
-  if (event.target === $views.profileButton && data.view === 'edit-profile') {
+  if (event.target === $views.profileButton) {
     $views.viewProfile.innerHTML = '';
     data.view = 'view-profile';
     viewSwapping();
-  } else if (event.target !== $views.profileButton) {
+  } else if (event.target === $views.entryButton) {
+    data.view = 'entries';
+    viewSwapping();
+  } else if (event.target === buttonNew) {
+    data.view = 'create-entry';
+    viewSwapping();
+  } else {
     data.view = 'edit-profile';
     viewSwapping();
   }
+});
+
+var entryData = {
+  imageUrl: '',
+  title: '',
+  notes: ''
+};
+
+entryForm.addEventListener('submit', function (event) {
+  event.preventDefault();
+  entryData.imageUrl = entryUrl.value;
+  entryData.title = entryTitle.value;
+  entryData.notes = entryNotes.value;
+  data.entries.unshift(entryData);
+  data.view = 'view-profile';
+  localStorage.setItem('data-object', JSON.stringify(data));
+  data.view = 'entries';
+  viewSwapping();
+  entryImage.setAttribute('src', 'images/placeholder-image-square.jpg');
+  entryForm.reset();
 });
