@@ -18,7 +18,7 @@
 .column-half,
 .column-half > input,
 .column-button,
-#profile-picture {
+.picture {
   width: 100%;
 }
 
@@ -44,6 +44,7 @@ header {
 .entries {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .entries-one {
@@ -71,7 +72,7 @@ header {
     width: 50%;
   }
 
-  #profile-picture {
+  .picture {
     width: 100%;
   }
 

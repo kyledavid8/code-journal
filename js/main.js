@@ -23,6 +23,9 @@ var entryNotes = document.querySelector('#notes');
 var entryImage = document.querySelector('.image-entry');
 var buttonNew = document.querySelector('.button-new');
 
+var entryOl = document.querySelector('.entry-ordered-list');
+var entryCounter;
+
 avatar.addEventListener('input', function () {
   image.setAttribute('src', avatar.value);
 });
@@ -51,6 +54,11 @@ document.addEventListener('DOMContentLoaded', function () {
     data = JSON.parse(dataStore);
     viewSwapping();
   }
+  entryCounter = 0;
+  while (data.entries.length > entryCounter) {
+    renderEntry();
+    entryCounter++;
+  }
 });
 
 function renderProfile() {
@@ -68,7 +76,7 @@ function renderProfile() {
 
   var profileImage = document.createElement('img');
   profileImage.setAttribute('src', data.profile.avatarUrl);
-  profileImage.setAttribute('id', 'profile-picture');
+  profileImage.setAttribute('class', 'picture');
   divCol.appendChild(profileImage);
 
   var divColTwo = document.createElement('div');
@@ -162,6 +170,7 @@ document.addEventListener('click', function (event) {
 
 entryForm.addEventListener('submit', function (event) {
   event.preventDefault();
+  entryOl.innerHTML = '';
   var entryData = {
     imageUrl: '',
     title: '',
@@ -177,4 +186,51 @@ entryForm.addEventListener('submit', function (event) {
   viewSwapping();
   entryImage.setAttribute('src', 'images/placeholder-image-square.jpg');
   entryForm.reset();
+  entryCounter = 0;
+  while (data.entries.length > entryCounter) {
+    renderEntry();
+    entryCounter++;
+  }
 });
+
+function renderEntry() {
+
+  var list = document.createElement('li');
+  entryOl.appendChild(list);
+
+  var row = document.createElement('div');
+  row.setAttribute('class', 'row');
+  list.appendChild(row);
+
+  var colHalf = document.createElement('div');
+  colHalf.setAttribute('class', 'column-half');
+  row.appendChild(colHalf);
+
+  var img = document.createElement('img');
+  img.setAttribute('src', data.entries[entryCounter].imageUrl);
+  img.setAttribute('class', 'picture');
+  img.setAttribute('alt', 'entry-image');
+  colHalf.appendChild(img);
+
+  var colHalfTwo = document.createElement('div');
+  colHalfTwo.setAttribute('class', 'column-half');
+  row.appendChild(colHalfTwo);
+
+  var rowInCol = document.createElement('div');
+  rowInCol.setAttribute('class', 'row-two-one');
+  colHalfTwo.appendChild(rowInCol);
+
+  var title = document.createElement('p');
+  title.textContent = data.entries[entryCounter].title;
+  rowInCol.appendChild(title);
+
+  var rowInColTwo = document.createElement('div');
+  rowInColTwo.setAttribute('class', 'row-two-one');
+  colHalfTwo.appendChild(rowInColTwo);
+
+  var notes = document.createElement('p');
+  notes.textContent = data.entries[entryCounter].notes;
+  rowInColTwo.appendChild(notes);
+
+  return list;
+}

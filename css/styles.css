@@ -15,7 +15,7 @@ header > p {
 input,
 textarea,
 button,
-#profile-picture {
+.picture {
   border: 3px solid black;
   border-radius: 3px;
 }
@@ -75,4 +75,8 @@ button {
 
 .entries-two {
   margin-top: 10px;
+}
+
+ol {
+  list-style-type: none;
 }
